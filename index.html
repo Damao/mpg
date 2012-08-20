@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<!--<html lang="zh_CN" manifest=".manifest">-->
+<head>
+    <meta charset="utf-8">
+    <title>买苹果</title>
+    <meta name="description" content="苹果各线产品导购" />
+    <meta name="keywords" content="苹果 iphone ipad itouch mac mini imac" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no" name="format-detection" />
+   <!-- iPhone -->
+<!--    <link rel="apple-touch-startup-image" media="(device-width: 320px)" href="http://miao.in/images/apple-touch-startup-image-320x460.png">-->
+    <!-- iPhone (Retina) -->
+<!--    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" href="http://miao.in/images/apple-touch-startup-image-640x920.png">-->
+    <link rel="apple-touch-startup-image" href="apple-touch-startup-image-640x920.png">
+    <meta name="viewport" content="width = device-width,minimum-scale=1.0,maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="style.css">
+    <style type="text/css">
+        #svg { background: url(logo.svg);
+            width: 200px; height: 200px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            setTimeout(scrollTo, 0, 0, 0);
+        }
+    </script>
+</head>
+<body>
+<img src="logo.svg" alt="">
+<div id="svg"></div>
+<section id="lay-container">
+<div id="home" class="current">
+    <header class="toolbar"><h1>买苹果</h1></header>
+   <nav>
+       <ul>
+           <li class="go-mba"><a href="#mba">MacBook Air</a><span class="count"></span></li>
+           <li class="go-mbp"><a href="#mbp">MacBook Pro</a><span class="count"></span></li>
+       </ul>
+   </nav>
+</div>
+    <div id="mba">
+        <header class="toolbar"><a class="back" href="#home">返回</a><h1>MacBook Air</h1></header>
+        <div class="data">Loading...</div>
+    </div>
+    <div id="mbp">
+        <header class="toolbar"><a class="back" href="#home">返回</a><h1>MacBook Pro</h1></header>
+        <div class="data">Loading...</div>
+    </div>
+</section>
+<div class="ui-tips" id="tips-add-home">可添加至主屏幕<div class="arr"></div></div>
+<script src="jquery.js"></script>
+<script>
+    function isiPhone() {
+        return (
+            //Detect iPhone
+                (navigator.platform.indexOf("iPhone") != -1) ||
+                    //Detect iPod
+                        (navigator.platform.indexOf("iPod") != -1)
+                );
+    }
+    jQuery.getJSON("http://mpg.av.cm/jsonp.php?device=all" + "&callback=?", function (data) {
+        console.log(data);
+        $("#mba .data").html(data.mba);
+        $("#mbp .data").html(data.mbp);
+    });
+    if (isiPhone() && !navigator.standalone) {
+        $("#tips-add-home").fadeIn();
+    }
+    window.addEventListener("hashchange", changeHash, false);
+    function changeHash() {
+        $(".current").removeClass("current");
+        $(window.location.hash).addClass("current")
+    }
+</script>
+</body>
+</html>
